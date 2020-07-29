@@ -32,6 +32,7 @@ protocol PresenterToViewListProtocol{
     func toggle(at index: Int, _ isChecked: Bool)
     func onCreationSuccess(_ title: String, at index: Int)
     func onDeletionSuccess(at index: Int)
+    func getNavController()-> UINavigationController?
 }
 
 protocol PresenterToInteractorListProtocol {

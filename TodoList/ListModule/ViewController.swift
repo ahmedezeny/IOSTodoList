@@ -122,7 +122,7 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController : PresenterToViewListProtocol {
-    
+      
     func onCreationSuccess(_ title: String, at index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
@@ -150,6 +150,10 @@ extension ViewController : PresenterToViewListProtocol {
     
     func onFetchFailure(error: String) {
         print("failed to fetch list")
+    }
+    
+    func getNavController() -> UINavigationController? {
+        return self.navigationController
     }
     
 }

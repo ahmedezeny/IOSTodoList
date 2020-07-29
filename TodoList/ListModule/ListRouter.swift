@@ -30,13 +30,17 @@ struct ListRouter: PresenterToRouterListProtocol {
     }
     
     func pushToDetail(on view: PresenterToViewListProtocol, with todoItem: TodoItem) {
-        let DetailViewController = DetailRouter.createModule(with: todoItem)
-        let storyboard = UIStoryboard(name: "Detail", bundle: nil)
-        if let detailedVC = storyboard.instantiateInitialViewController() as? DetailViewController{
+        let detailViewController = DetailRouter.createModule(with: todoItem)
+        //let storyboard = UIStoryboard(name: "Detailed", bundle: nil)
+
+        //if let detailedVC = (storyboard.instantiateViewController(withIdentifier: "Detail") as? detailViewController){
                //prepareVC here
-                detailedVC.navigationController?
-                .pushViewController(DetailViewController, animated: true)
+            
+        if let navC = view.getNavController(){
+            navC.pushViewController(detailViewController, animated: true)
         }
+                
+        //}
         //let viewController = view as! DetailViewController
         
     }
