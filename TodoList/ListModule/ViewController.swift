@@ -43,11 +43,13 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = deleteAction(at: indexPath)
         let edit =  editAction(at: indexPath)
+        edit.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         return UISwipeActionsConfiguration(actions: [delete, edit])
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let check = checkAction(at: indexPath)
+        check.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         return UISwipeActionsConfiguration(actions: [check])
     }
     
@@ -68,10 +70,15 @@ class ViewController: UITableViewController {
         return action
     }
     private func editAction (at indexPath: IndexPath) -> UIContextualAction{
-        let action = UIContextualAction(style: .normal, title: "check") { (action, view, compeletion) in
+        let action = UIContextualAction(style: .normal, title: "edit") { (action, view, compeletion) in
             
             let ac = UIAlertController(title: "edit the todo...", message: "", preferredStyle: .alert)
-            ac.addTextField()
+            ac.addTextField { (textField) in
+                if let cell = self.tableView.cellForRow(at: indexPath) {
+                    textField.text = cell.textLabel?.text
+                }
+                
+            }
             ac.addAction(UIAlertAction(title: "Submit", style: .default){ [weak self, weak ac] action in
                 guard let answer = ac?.textFields?.first?.text    else {return}
                 self?.presenter?.editRowAt(index: indexPath.row, to: answer)
@@ -119,22 +126,21 @@ extension ViewController : PresenterToViewListProtocol {
     func onCreationSuccess(_ title: String, at index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
+        //
     }
     
-    func toggle(at index: Int) {
-        let indexPath = NSIndexPath(row: index, section: 0)
-        let cell = self.tableView(self.tableView, cellForRowAt: indexPath as IndexPath)
-        let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: "Your Text")
-        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
-        cell.textLabel?.attributedText = attributeString
+    func onDeletionSuccess(at index: Int){
+        let indexPath = IndexPath(row: index, section: 0)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+    
+    func toggle(at index: Int, _ isChecked: Bool) {
+
         self.tableView.reloadData()
     }
     
     func onEditSuccess(at index: Int, to title: String) {
-        let indexPath = NSIndexPath(row: index, section: 0)
-        let cell = self.tableView(self.tableView, cellForRowAt: indexPath as IndexPath)
-        cell.textLabel?.text = title
-        self.tableView.reloadData()
+        print("edited successfully")
     }
     
     
