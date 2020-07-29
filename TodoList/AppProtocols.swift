@@ -22,7 +22,7 @@ protocol ViewToPresenterListProtocol {
     func deleteRowAt(index: Int)
     func didCheckRowAt(index: Int)
     func editRowAt(index: Int, to title: String)
-    func addATodo(_ title: String, detail: String?)
+    func addATodo(_ todoItem:TodoItem)
 }
 
 protocol PresenterToViewListProtocol{
@@ -38,7 +38,7 @@ protocol PresenterToViewListProtocol{
 protocol PresenterToInteractorListProtocol {
     var presenter: InteractorToPresenterListProtocol? {get set}
     func loadTodos(completion: @escaping (_ message: String, _ todos: [TodoItem]) -> Void)
-    func addATodo(_ title: String, detail: String?, isChecked: Bool?, index: Int?)
+    func addATodo(_ todoItem:TodoItem)
     func retriveATodo(at index: Int)
     func deleteATodo(at index: Int)
     func editATodo(at index: Int, to title: String)
@@ -58,5 +58,5 @@ protocol InteractorToPresenterListProtocol{
     func checkSuccess(at index: Int)
     func editSuccess(at index: Int, title: String)
     func deletionSuccess(at index: Int)
-    func creationSuccess(_ title: String, detail: String?, isChecked: Bool?, index: Int?)
+    func creationSuccess(_ todoItem: TodoItem)
 }

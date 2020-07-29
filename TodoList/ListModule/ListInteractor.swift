@@ -16,12 +16,13 @@ class ListInteractor: PresenterToInteractorListProtocol {
     
     private var ref = Database.database().reference()
     
-    func addATodo(_ title: String, detail: String?, isChecked: Bool?, index: Int?) {
-        self.ref.child("todos").child(title).updateChildValues(["datail": detail ?? "", "isChecked": false])
+    func addATodo(_ todoItem:TodoItem) {
         
-        todos.append(TodoItem(title: title, isChecked: isChecked ?? false, details: detail))
+        self.ref.child("todos").child(todoItem.id).updateChildValues(["title": todoItem.title,"datail": todoItem.details ?? "", "isChecked": false])
         
-        presenter?.creationSuccess( title, detail: detail, isChecked: isChecked ?? false , index: nil)
+        todos.append(todoItem)
+        
+        presenter?.creationSuccess(todoItem)
     }
     
     func loadTodos(completion: @escaping (_ message: String, _ todos: [TodoItem]) -> Void) {
@@ -33,15 +34,16 @@ class ListInteractor: PresenterToInteractorListProtocol {
                 var counter = 0
                 for child in snapshot.children.allObjects as! [DataSnapshot]{
                     
-                    let title = child.key
-                    let todoRef = self.ref.child("todos").child(title)
+                    let id = child.key
+                    let todoRef = self.ref.child("todos").child(id)
                     
                     counter += 1
                     todoRef.observeSingleEvent(of: .value, with: { (todoSnapshot) in
                         let value = todoSnapshot.value as? NSDictionary
+                        let title = value!["title"] as? String
                         let isChecked = value!["isChecked"] as? Bool
                         let detail = value!["datail"] as? String
-                        self.todos.append(TodoItem(title: title, isChecked: isChecked!, details: detail))
+                        self.todos.append(TodoItem(title: title!, isChecked: isChecked!, detail: detail, id: id))
                         counter -= 1
                         if counter == 0{
                             completion("success", self.todos)
@@ -78,7 +80,7 @@ class ListInteractor: PresenterToInteractorListProtocol {
     
     func deleteATodo(at index: Int) {
         if !validated(index: index) {return}
-        let todo = todos[index].title
+        let todo = todos[index].id
         ref.child("todos").child(todo).removeValue()
         todos.remove(at: index)
         presenter?.deletionSuccess(at: index)
@@ -87,8 +89,9 @@ class ListInteractor: PresenterToInteractorListProtocol {
     func editATodo(at index: Int, to title: String) {
         if !validated(index: index) {return}
         
-        addATodo(title, detail: todos[index].details, isChecked: todos[index].isChecked, index: nil)
-        deleteATodo(at: index)
+//        addATodo(TodoItem(title: title, isChecked: todos[index].isChecked, detail: todos[index].details))
+//        deleteATodo(at: index)
+        
 //        //var child = self.ref.child("todos").child(todos[index].title)
 //        self.ref.child("todos").child(todos[index].title).observeSingleEvent(of: .value){ (snapshot) in
 //        //var child = ref.child("todos").child(todos[index].title);
@@ -97,22 +100,22 @@ class ListInteractor: PresenterToInteractorListProtocol {
 //            self.ref.child("todos").child(self.todos[index].title).removeValue();
 //        }
 //
-//        ref.child("todos").child(todos[index].title).updateChildValues([todos[index].title: title]) { [weak self]
-//          (error:Error?, ref:DatabaseReference) in
-//          if let error = error {
-//            print("Data could not be saved: \(error).")
-//          } else {
-//            self?.todos[index].title = title
-//            print("Data saved successfully!")
-//            self?.presenter?.editSuccess(at: index, title: title)
-//          }
-//        }
+        ref.child("todos").child(todos[index].id).updateChildValues(["title": title]) { [weak self]
+          (error:Error?, ref:DatabaseReference) in
+          if let error = error {
+            print("Data could not be saved: \(error).")
+          } else {
+            self?.todos[index].title = title
+            print("Data saved successfully!")
+            self?.presenter?.editSuccess(at: index, title: title)
+          }
+        }
          self.presenter?.editSuccess(at: index, title: title)
     }
     
     func check(at index: Int) {
         if !validated(index: index) {return}
-        ref.child("todos").child(todos[index].title).updateChildValues(["isChecked": !todos[index].isChecked]) {[weak self]
+        ref.child("todos").child(todos[index].id).updateChildValues(["isChecked": !todos[index].isChecked]) {[weak self]
           (error:Error?, ref:DatabaseReference) in
           if let error = error {
             print("Data could not be saved: \(error).")

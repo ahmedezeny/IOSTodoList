@@ -9,7 +9,15 @@
 import Foundation
 
 struct TodoItem {
+    var id: String
     var title: String
     var isChecked: Bool
     var details: String?
+    
+    init(title: String, isChecked: Bool, detail: String?, id: String?) {
+        self.id = id ?? UUID().uuidString
+        self.title = title
+        self.isChecked = isChecked
+        self.details = detail
+    }
 }

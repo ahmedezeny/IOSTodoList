@@ -56,7 +56,7 @@ class ViewController: UITableViewController {
     private func deleteAction (at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, compeletion) in
             self.presenter?.deleteRowAt(index: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//            self.tableView.deleteRows(at: [indexPath], with: .automatic)
             compeletion(true)
         }
         return action
@@ -106,7 +106,8 @@ class ViewController: UITableViewController {
         ac.addAction(UIAlertAction(title: "Add", style: .default){ [weak self, weak ac] action in
             guard let title = ac?.textFields?.first?.text    else {return}
             guard let detail = ac?.textFields?[1].text    else {return}
-            self?.presenter?.addATodo(title, detail: detail)
+            //self?.presenter?.addATodo(title, detail: detail)
+            self?.presenter?.addATodo(TodoItem(title: title, isChecked: false, detail: detail, id: nil))
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .destructive))
         present(ac,animated: true)
@@ -141,6 +142,7 @@ extension ViewController : PresenterToViewListProtocol {
     
     func onEditSuccess(at index: Int, to title: String) {
         print("edited successfully")
+        tableView.reloadData()
     }
     
     

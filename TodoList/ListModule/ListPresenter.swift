@@ -73,19 +73,19 @@ class ListPresenter: ViewToPresenterListProtocol{
         interactor?.editATodo(at: index, to: title)
     }
     
-    func addATodo(_ title: String, detail: String?) {
-        interactor?.addATodo(title, detail: detail, isChecked: nil, index: nil)
+    func addATodo(_ todoItem: TodoItem) {
+        interactor?.addATodo(todoItem)
     }
        
 }
 
 
 extension ListPresenter: InteractorToPresenterListProtocol {
-    func creationSuccess(_ title: String, detail: String?, isChecked: Bool?, index: Int?) {
+    func creationSuccess(_ todoItem: TodoItem){
         
-        todos.append(TodoItem(title: title, isChecked: false, details: detail))
+        todos.append(todoItem)
         
-        view?.onCreationSuccess(title, at: (todos.count - 1))
+        view?.onCreationSuccess(todoItem.title, at: (todos.count - 1))
         
     }
     
