@@ -11,10 +11,10 @@ import UIKit
 class ViewController: UITableViewController {
     
     var presenter : ViewToPresenterListProtocol?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.viewDidLoad()
+        
         self.title = "TODO List"
         self.navigationController?.navigationBar.prefersLargeTitles = true
             // Do any additional setup after loading the view.
@@ -22,6 +22,12 @@ class ViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+
     }
         
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

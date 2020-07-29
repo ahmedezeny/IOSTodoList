@@ -62,7 +62,13 @@ class ListPresenter: ViewToPresenterListProtocol{
     }
     
     func didCheckRowAt(index: Int){
-        interactor?.check(at: index)
+        interactor?.check(at: index){ message in
+            if message == "success"{
+                self.checkSuccess(at: index)
+            }
+        }
+            
+        
     }
     
     func deleteRowAt(index: Int){
@@ -120,8 +126,8 @@ extension ListPresenter: InteractorToPresenterListProtocol {
         view?.onFetchFailure(error: "Can't load Todo List")
     }
     
-    func getItemSuccess(_ todo: TodoItem) {
-        router?.pushToDetail(on: view!, with: todo)
+    func getItemSuccess(_ todo: TodoItem, index: Int) {
+        router?.pushToDetail(on: view!, with: todo, at: index)
     }
     
     func getItemFailure() {

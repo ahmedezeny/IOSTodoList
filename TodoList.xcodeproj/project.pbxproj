@@ -25,8 +25,6 @@
 		592ED13024CF72020093715D /* ListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592ED12F24CF72020093715D /* ListRouter.swift */; };
 		592ED13224CF726C0093715D /* Detailed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 592ED13124CF726C0093715D /* Detailed.storyboard */; };
 		592ED13424CF729B0093715D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592ED13324CF729B0093715D /* DetailViewController.swift */; };
-		592ED13624CF72B80093715D /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592ED13524CF72B80093715D /* DetailInteractor.swift */; };
-		592ED13824CF72D30093715D /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592ED13724CF72D30093715D /* DetailPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,8 +48,6 @@
 		592ED12F24CF72020093715D /* ListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRouter.swift; sourceTree = "<group>"; };
 		592ED13124CF726C0093715D /* Detailed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detailed.storyboard; sourceTree = "<group>"; };
 		592ED13324CF729B0093715D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		592ED13524CF72B80093715D /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
-		592ED13724CF72D30093715D /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
 		5C2452736EBB75ED61CAED8D /* Pods-TodoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoList.release.xcconfig"; path = "Target Support Files/Pods-TodoList/Pods-TodoList.release.xcconfig"; sourceTree = "<group>"; };
 		BD476F880090981CB38DE3C2 /* Pods_TodoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -121,9 +117,7 @@
 		592ED12724CF1F8E0093715D /* DetailListModule */ = {
 			isa = PBXGroup;
 			children = (
-				592ED13524CF72B80093715D /* DetailInteractor.swift */,
 				592ED13324CF729B0093715D /* DetailViewController.swift */,
-				592ED13724CF72D30093715D /* DetailPresenter.swift */,
 				592CE72A24D02B3B00084EF7 /* DetailRouter.swift */,
 			);
 			path = DetailListModule;
@@ -272,7 +266,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				592ED13024CF72020093715D /* ListRouter.swift in Sources */,
-				592ED13624CF72B80093715D /* DetailInteractor.swift in Sources */,
 				592ED12C24CF2D6B0093715D /* ListPresenter.swift in Sources */,
 				592CE72B24D02B3B00084EF7 /* DetailRouter.swift in Sources */,
 				592ED11024CEED2E0093715D /* ViewController.swift in Sources */,
@@ -284,7 +277,6 @@
 				592ED13424CF729B0093715D /* DetailViewController.swift in Sources */,
 				592ED12E24CF6EF10093715D /* ListInteractor.swift in Sources */,
 				592ED11624CEED2E0093715D /* TodoList.xcdatamodeld in Sources */,
-				592ED13824CF72D30093715D /* DetailPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

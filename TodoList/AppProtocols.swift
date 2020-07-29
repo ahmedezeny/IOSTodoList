@@ -35,6 +35,8 @@ protocol PresenterToViewListProtocol{
     func getNavController()-> UINavigationController?
 }
 
+
+
 protocol PresenterToInteractorListProtocol {
     var presenter: InteractorToPresenterListProtocol? {get set}
     func loadTodos(completion: @escaping (_ message: String, _ todos: [TodoItem]) -> Void)
@@ -42,18 +44,18 @@ protocol PresenterToInteractorListProtocol {
     func retriveATodo(at index: Int)
     func deleteATodo(at index: Int)
     func editATodo(at index: Int, to title: String)
-    func check(at index: Int)
+    func check(at index: Int, completion: @escaping (_ message: String) -> Void)
 }
 
 protocol PresenterToRouterListProtocol {
     static func createModule() -> ViewController
-    func pushToDetail(on view: PresenterToViewListProtocol, with todoItem: TodoItem)
+    func pushToDetail(on view: PresenterToViewListProtocol, with todoItem: TodoItem, at index: Int)
 }
 
 protocol InteractorToPresenterListProtocol{
     func fetchListSuccess(list: [TodoItem])
     func fetchListFailure(errorCode: Int)
-    func getItemSuccess(_ todo: TodoItem)
+    func getItemSuccess(_ todo: TodoItem, index: Int)
     func getItemFailure()
     func checkSuccess(at index: Int)
     func editSuccess(at index: Int, title: String)

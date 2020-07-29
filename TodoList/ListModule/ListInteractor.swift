@@ -11,6 +11,7 @@ import Firebase
 
 class ListInteractor: PresenterToInteractorListProtocol {
     
+    
     var presenter: InteractorToPresenterListProtocol?
     var todos : [TodoItem] = []
     
@@ -74,7 +75,7 @@ class ListInteractor: PresenterToInteractorListProtocol {
 //
 //        }
 //        DispatchQueue.main.async {
-            self.presenter?.getItemSuccess(self.todos[index])
+        self.presenter?.getItemSuccess(self.todos[index], index: index)
  //       }
     }
     
@@ -89,17 +90,7 @@ class ListInteractor: PresenterToInteractorListProtocol {
     func editATodo(at index: Int, to title: String) {
         if !validated(index: index) {return}
         
-//        addATodo(TodoItem(title: title, isChecked: todos[index].isChecked, detail: todos[index].details))
-//        deleteATodo(at: index)
-        
-//        //var child = self.ref.child("todos").child(todos[index].title)
-//        self.ref.child("todos").child(todos[index].title).observeSingleEvent(of: .value){ (snapshot) in
-//        //var child = ref.child("todos").child(todos[index].title);
-//        //child.once('value', function(snapshot) {
-//          self.ref.child("todos").child(title).setValue(snapshot.children);
-//            self.ref.child("todos").child(self.todos[index].title).removeValue();
-//        }
-//
+
         ref.child("todos").child(todos[index].id).updateChildValues(["title": title]) { [weak self]
           (error:Error?, ref:DatabaseReference) in
           if let error = error {
@@ -113,7 +104,7 @@ class ListInteractor: PresenterToInteractorListProtocol {
          self.presenter?.editSuccess(at: index, title: title)
     }
     
-    func check(at index: Int) {
+    func check(at index: Int, completion: @escaping (_ message: String) -> Void) {
         if !validated(index: index) {return}
         ref.child("todos").child(todos[index].id).updateChildValues(["isChecked": !todos[index].isChecked]) {[weak self]
           (error:Error?, ref:DatabaseReference) in
@@ -121,7 +112,7 @@ class ListInteractor: PresenterToInteractorListProtocol {
             print("Data could not be saved: \(error).")
           } else {
             self?.todos[index].isChecked = !(self?.todos[index].isChecked ?? false)
-            self?.presenter?.checkSuccess(at: index)
+            completion("success")
             print("Data saved successfully!")
             
           }
