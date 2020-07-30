@@ -61,6 +61,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Eqh-gU-KcF"/>
                     <connections>
+                        <outlet property="checkButton" destination="1qe-es-xpG" id="97x-HB-Btu"/>
                         <outlet property="detailTF" destination="vO6-pJ-1YJ" id="Arf-Y6-jWo"/>
                         <outlet property="titleTF" destination="D1n-6l-5wH" id="Vap-k2-WZL"/>
                     </connections>

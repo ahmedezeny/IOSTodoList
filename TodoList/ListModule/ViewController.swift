@@ -13,7 +13,7 @@ class ViewController: UITableViewController {
     var presenter : ViewToPresenterListProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter?.viewDidLoad()
+ //       presenter?.viewDidLoad()
         
         self.title = "TODO List"
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -26,7 +26,7 @@ class ViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        presenter?.viewDidLoad()
 
     }
         
@@ -87,7 +87,7 @@ class ViewController: UITableViewController {
             }
             ac.addAction(UIAlertAction(title: "Submit", style: .default){ [weak self, weak ac] action in
                 guard let answer = ac?.textFields?.first?.text    else {return}
-                self?.presenter?.editRowAt(index: indexPath.row, to: answer)
+                self?.presenter?.editRowAt(index: indexPath.row, to: answer, detail: nil)
             })
             ac.addAction(UIAlertAction(title: "Cancel", style: .destructive))
             self.present(ac,animated: true)

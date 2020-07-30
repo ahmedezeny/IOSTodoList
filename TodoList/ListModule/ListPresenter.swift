@@ -75,8 +75,8 @@ class ListPresenter: ViewToPresenterListProtocol{
         interactor?.deleteATodo(at: index)
     }
     
-    func editRowAt(index: Int, to title: String){
-        interactor?.editATodo(at: index, to: title)
+    func editRowAt(index: Int, to title: String, detail: String?){
+        interactor?.editATodo(at: index, to: title, detail: detail)
     }
     
     func addATodo(_ todoItem: TodoItem) {
@@ -107,14 +107,15 @@ extension ListPresenter: InteractorToPresenterListProtocol {
         
     }
     
-    func editSuccess(at index: Int, title: String) {
+    func editSuccess(at index: Int, title: String, detail: String?) {
         self.todos[index].title = title
+        self.todos[index].details = detail
         view?.onEditSuccess(at: index, to: title)
     }
     
     
     func fetchListSuccess(list: [TodoItem]) {
-
+        self.todos = []
         self.todos = list.compactMap{$0.self}
         DispatchQueue.main.async {
             self.view?.onFetchSuccess()

@@ -17,6 +17,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var titleTF: UITextField!
     @IBOutlet weak var detailTF: UITextView!
     
+    @IBOutlet weak var checkButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,16 +28,29 @@ class DetailViewController: UIViewController {
         setTFs()
         
         
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editItem))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editItem))
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if todoItem!.isChecked{
+            checkButton.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            checkButton.setTitle("UnCheck", for: .normal)
+        }
+        
     }
     
     
     
     @IBAction func check(_ sender: UIButton) {
-      //  presenter?.didCheckRowAt(index: index!)
-        self.navigationController?.popToRootViewController(animated: true)
+        presenter?.didCheckRowAt(index: index!)
+        
+    }
+    
+    @objc private func editItem(){
+        presenter?.editRowAt(index: index!, to: titleTF.text!, detail: detailTF.text)
     }
     
     
@@ -45,16 +59,7 @@ class DetailViewController: UIViewController {
         titleTF.text = todoItem?.title
         detailTF.text = todoItem?.details
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }
 
@@ -68,11 +73,11 @@ extension DetailViewController : PresenterToViewListProtocol {
     }
     
     func onEditSuccess(at index: Int, to title: String) {
-        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func toggle(at index: Int, _ isChecked: Bool) {
-        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func onCreationSuccess(_ title: String, at index: Int) {

@@ -21,7 +21,7 @@ protocol ViewToPresenterListProtocol {
     func cellForRowAt(_ tableView: UITableView,  indexPath: IndexPath) -> UITableViewCell
     func deleteRowAt(index: Int)
     func didCheckRowAt(index: Int)
-    func editRowAt(index: Int, to title: String)
+    func editRowAt(index: Int, to title: String, detail: String?)
     func addATodo(_ todoItem:TodoItem)
 }
 
@@ -43,7 +43,7 @@ protocol PresenterToInteractorListProtocol {
     func addATodo(_ todoItem:TodoItem)
     func retriveATodo(at index: Int)
     func deleteATodo(at index: Int)
-    func editATodo(at index: Int, to title: String)
+    func editATodo(at index: Int, to title: String, detail: String?)
     func check(at index: Int, completion: @escaping (_ message: String) -> Void)
 }
 
@@ -58,7 +58,7 @@ protocol InteractorToPresenterListProtocol{
     func getItemSuccess(_ todo: TodoItem, index: Int)
     func getItemFailure()
     func checkSuccess(at index: Int)
-    func editSuccess(at index: Int, title: String)
+    func editSuccess(at index: Int, title: String, detail: String?)
     func deletionSuccess(at index: Int)
     func creationSuccess(_ todoItem: TodoItem)
 }

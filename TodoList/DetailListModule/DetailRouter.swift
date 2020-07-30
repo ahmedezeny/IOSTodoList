@@ -18,7 +18,6 @@ class DetailRouter{
             viewController.index = index
             
             let presenter: ViewToPresenterListProtocol & InteractorToPresenterListProtocol = ListPresenter()
-               //todo
             viewController.presenter = presenter 
             viewController.presenter?.router = ListRouter()
             viewController.presenter?.view = viewController
