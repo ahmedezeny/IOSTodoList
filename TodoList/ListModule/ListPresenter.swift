@@ -76,17 +76,28 @@ class ListPresenter: ViewToPresenterListProtocol{
     }
     
     func editRowAt(index: Int, to title: String, detail: String?){
-        interactor?.editATodo(at: index, to: title, detail: detail)
+        interactor?.editATodo(at: index, to: title, detail: detail ?? todos[index].details)
     }
     
     func addATodo(_ todoItem: TodoItem) {
         interactor?.addATodo(todoItem)
+    }
+    
+    func addAnImage(at index: Int, image: UIImage){
+        interactor?.addAnImage(at: index, image: image)
     }
        
 }
 
 
 extension ListPresenter: InteractorToPresenterListProtocol {
+
+    
+    func addAnImageSuccess(at index: Int, with url: URL) {
+        self.todos[index].imageURL = url.absoluteString
+        view?.onAddImageSuccess(with: url)
+    }
+    
     func creationSuccess(_ todoItem: TodoItem){
         
         todos.append(todoItem)

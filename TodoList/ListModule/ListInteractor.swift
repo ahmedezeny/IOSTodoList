@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import FirebaseStorage
 
 class ListInteractor: PresenterToInteractorListProtocol {
     
@@ -24,6 +25,40 @@ class ListInteractor: PresenterToInteractorListProtocol {
         todos.append(todoItem)
         
         presenter?.creationSuccess(todoItem)
+    }
+    
+    func addAnImage(at index: Int, image: UIImage){
+        let storage = Storage.storage()
+
+        // Create a storage reference from our storage service
+        let storageRef = storage.reference().child("images/\(todos[index].id)")
+        if let data = image.pngData(){
+            let uploadMetadata = StorageMetadata.init()
+            uploadMetadata.contentType = "image/jpeg"
+            storageRef.putData(data, metadata: nil) { (metaData, error) in
+                if error != nil {
+                    print(error ?? "error uploading the image")
+                    return
+                }
+                storageRef.downloadURL { (url, error) in
+                    if let error = error  {
+                        print("error accessing photo \(error)")
+                        return
+                    }
+                    
+                    if let url = url {
+                        print(url)
+                        self.ref.child("todos").child(self.todos[index].id).updateChildValues(["imageURL": url.absoluteString])
+                        self.todos[index].imageURL = url.absoluteString
+                        self.presenter?.addAnImageSuccess(at: index, with: url)
+                    }
+                    
+                }
+            }
+        }
+        
+        //var spaceRef = storageRef.child("images/space.jpg")
+            
     }
     
     func loadTodos(completion: @escaping (_ message: String, _ todos: [TodoItem]) -> Void) {
@@ -45,7 +80,8 @@ class ListInteractor: PresenterToInteractorListProtocol {
                         let title = value!["title"] as? String
                         let isChecked = value!["isChecked"] as? Bool
                         let detail = value!["detail"] as? String
-                        self.todos.append(TodoItem(title: title!, isChecked: isChecked!, detail: detail, id: id))
+                        let imageURL = value!["imageURL"] as? String
+                        self.todos.append(TodoItem(title: title!, isChecked: isChecked!, detail: detail, id: id, imageURL: imageURL))
                         counter -= 1
                         if counter == 0{
                             completion("success", self.todos)

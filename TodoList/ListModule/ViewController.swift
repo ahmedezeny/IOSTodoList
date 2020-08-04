@@ -75,6 +75,7 @@ class ViewController: UITableViewController {
         }
         return action
     }
+    
     private func editAction (at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .normal, title: "edit") { (action, view, compeletion) in
             
@@ -108,27 +109,27 @@ class ViewController: UITableViewController {
         ac.addTextField { (textField) in
             textField.placeholder = "Enter todo detail"
         }
+    
 
         ac.addAction(UIAlertAction(title: "Add", style: .default){ [weak self, weak ac] action in
             guard let title = ac?.textFields?.first?.text    else {return}
             guard let detail = ac?.textFields?[1].text    else {return}
             //self?.presenter?.addATodo(title, detail: detail)
-            self?.presenter?.addATodo(TodoItem(title: title, isChecked: false, detail: detail, id: nil))
+            self?.presenter?.addATodo(TodoItem(title: title, isChecked: false, detail: detail, id: nil, imageURL: nil))
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .destructive))
         present(ac,animated: true)
     }
     
-    private func prepareTFPromptText(_ tf:UITextField?){
-        tf?.text = "task title here"
-        tf?.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        let promptPosition = tf?.beginningOfDocument
-        tf?.selectedTextRange = tf!.textRange(from: promptPosition!, to: promptPosition!)
-    }
+    
 
 }
 
 extension ViewController : PresenterToViewListProtocol {
+    func onAddImageSuccess(with url: URL) {
+        
+    }
+    
       
     func onCreationSuccess(_ title: String, at index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
@@ -165,3 +166,5 @@ extension ViewController : PresenterToViewListProtocol {
     }
     
 }
+
+

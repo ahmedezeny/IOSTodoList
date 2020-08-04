@@ -23,6 +23,7 @@ protocol ViewToPresenterListProtocol {
     func didCheckRowAt(index: Int)
     func editRowAt(index: Int, to title: String, detail: String?)
     func addATodo(_ todoItem:TodoItem)
+    func addAnImage(at index: Int, image: UIImage)
 }
 
 protocol PresenterToViewListProtocol{
@@ -33,6 +34,7 @@ protocol PresenterToViewListProtocol{
     func onCreationSuccess(_ title: String, at index: Int)
     func onDeletionSuccess(at index: Int)
     func getNavController()-> UINavigationController?
+    func onAddImageSuccess(with url: URL)
 }
 
 
@@ -45,6 +47,7 @@ protocol PresenterToInteractorListProtocol {
     func deleteATodo(at index: Int)
     func editATodo(at index: Int, to title: String, detail: String?)
     func check(at index: Int, completion: @escaping (_ message: String) -> Void)
+    func addAnImage(at index: Int, image: UIImage)
 }
 
 protocol PresenterToRouterListProtocol {
@@ -58,6 +61,7 @@ protocol InteractorToPresenterListProtocol{
     func getItemSuccess(_ todo: TodoItem, index: Int)
     func getItemFailure()
     func checkSuccess(at index: Int)
+    func addAnImageSuccess(at index: Int, with url: URL)
     func editSuccess(at index: Int, title: String, detail: String?)
     func deletionSuccess(at index: Int)
     func creationSuccess(_ todoItem: TodoItem)
