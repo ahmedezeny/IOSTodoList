@@ -121,6 +121,7 @@ extension ListPresenter: InteractorToPresenterListProtocol {
     func editSuccess(at index: Int, title: String, detail: String?) {
         self.todos[index].title = title
         self.todos[index].details = detail
+        self.todos[index].isChecked = self.todos[index].isChecked
         view?.onEditSuccess(at: index, to: title)
     }
     

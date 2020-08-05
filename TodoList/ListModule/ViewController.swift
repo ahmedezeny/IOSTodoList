@@ -55,7 +55,12 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let check = checkAction(at: indexPath)
-        check.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        if (self.presenter?.todos[indexPath.row].isChecked)!{
+            check.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+        }else{
+           check.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        }
+        
         return UISwipeActionsConfiguration(actions: [check])
     }
     
@@ -68,7 +73,8 @@ class ViewController: UITableViewController {
         return action
     }
     private func checkAction (at indexPath: IndexPath) -> UIContextualAction{
-        let action = UIContextualAction(style: .normal, title: "check") { (action, view, compeletion) in
+        let titl = ((self.presenter?.todos[indexPath.row].isChecked)!) ? "Uncheck" : "check"
+        let action = UIContextualAction(style: .normal, title: titl ) { (action, view, compeletion) in
             self.presenter?.didCheckRowAt(index: indexPath.row)
             
             compeletion(true)
